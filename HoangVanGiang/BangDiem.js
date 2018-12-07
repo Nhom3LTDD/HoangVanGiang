@@ -1,12 +1,12 @@
-import React from 'react';
-import { Button, View, Text,ActivityIndicator,FlatList} from 'react-native';
+﻿import React from 'react';
+import { Button, View, Text,ActivityIndicator,FlatList,ImageBackground, StyleSheet } from 'react-native';
 export default class BangDiem extends React.Component {
   constructor(props){
     super(props);
     this.state ={ isLoading: true}
   }
   componentDidMount(){
-    return fetch('http://192.168.2.150:82/TracNghiem/BangDiem.php')
+    return fetch('http://192.168.3.166:82/TracNghiem/BangDiem.php')
       .then((response) => response.json())
       .then((responseJson) => {
 
@@ -31,22 +31,36 @@ export default class BangDiem extends React.Component {
     }
 
     return (
-      <View style={{ flex: 1, margin:20 }}>
-       <Text style={{ marginBottom: 20, textAlign: 'center', backgroundColor: 'green' }}>CÂU HỎI TRẮC NGHIỆM</Text>
-        <Text style={{ marginBottom: 20 }}>Điểm Đạt Được:</Text>  
+      <ImageBackground source={require('./bg.png')} style={styles.container}>
+      <View style={{ flex: 1, margin:20}}>
+      <Text style={{ marginBottom: 20, textAlign: 'center', backgroundColor: 'green', fontSize: 20, color: "white" }}>CÂU HỎI TRẮC NGHIỆM</Text>
+        <Text style={{ marginBottom: 20, color: "white", textAlign: "center" , fontSize: 15, marginBottom: 100}}>ĐIỂM ĐẠT ĐƯỢC:</Text>  
         <FlatList
           data={this.state.dataSource}
-          renderItem={({item}) => <Text> {item.tencauhoi}  Điểm.{item.result} </Text>}
+          renderItem={({item}) => <Text style = {{textAlign: "center", marginBottom: 10, }}> {item.tencauhoi}  Điểm.{item.result} </Text>}
           keyExtractor={({id}, index) => id}
         />
-        <Button
-          title="Quay lại"
+       <Button
+          title="Tiếp"
           color="green"
-         
+          //onPress={() => this.props.navigation.navigate('GoiCau')}
+        /> 
+        <Button
+          title="Đăng Xuất"
+          color="blue"
+          //onPress={() => this.props.navigation.navigate('HomeScreen')}
         /> 
         
       </View>
+      </ImageBackground>
     );
   }
 }
+const styles = StyleSheet.create({
+  container: {
+    flex:1,   
+    justifyContent: 'center',
+    //marginTop: 0, 
+},
+});
 
